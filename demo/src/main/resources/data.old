@@ -1,0 +1,49 @@
+-- Clear existing data (optional)
+DELETE FROM email;
+DELETE FROM phone;
+DELETE FROM client;
+DELETE FROM user;
+
+-- 1. Admin User (fixed UUID)
+INSERT INTO user (user_id, username, password_hash, role, created_at)
+VALUES (
+  'a1b2c3d4-5678-90ef-abcd-ef1234567890', -- Explicit UUID
+  'admin',
+  '$2a$10$4fBv5J3L6h5W8ZzVQ1xrKuY9Xo6n7dC8gTkU7jDmNlOqPwRs1t2', -- Bcrypt hash for "123qwei@#"
+  'ADMIN',
+  CURRENT_TIMESTAMP -- Matches the DEFAULT value
+);
+
+-- 2. Single Client (linked to admin)
+INSERT INTO client (client_id, name, cpf, cep, street, neighborhood, city, state, user_id, created_at)
+VALUES (
+  'c1d2e3f4-5678-90ef-abcd-ef1234567890', -- Fixed UUID
+  'John Doe',
+  '12345678901',
+  '70000000',
+  'Main Street',
+  'Downtown',
+  'Brasília',
+  'DF',
+  'a1b2c3d4-5678-90ef-abcd-ef1234567890', -- Matches admin's user_id
+  CURRENT_TIMESTAMP
+);
+
+-- 3. Phone for Client
+INSERT INTO phone (phone_id, number, type, client_id, created_at)
+VALUES (
+  UUID(),
+  '61987654321',
+  'CELLPHONE',
+  'c1d2e3f4-5678-90ef-abcd-ef1234567890', -- Matches client's client_id
+  CURRENT_TIMESTAMP
+);
+
+-- 4. Email for Client
+INSERT INTO email (email_id, address, client_id, created_at)
+VALUES (
+  UUID(),
+  'john.doe@example.com',
+  'c1d2e3f4-5678-90ef-abcd-ef1234567890', -- Matches client's client_id
+  CURRENT_TIMESTAMP
+);
