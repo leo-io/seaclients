@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sea.clients.dto.ViaCepResponseDTO;
 import com.sea.clients.entity.Client;
 import com.sea.clients.entity.User;
+import com.sea.clients.exception.CepNotFoundException;
 import com.sea.clients.repository.ClientRepository;
 import com.sea.clients.repository.EmailRepository;
 import com.sea.clients.repository.PhoneRepository;
@@ -21,19 +23,27 @@ import lombok.RequiredArgsConstructor;
 	    private final PhoneRepository phoneRepository;
 	    private final EmailRepository emailRepository;
 	    private final UserRepository userRepository;
+	    private final ViaCepService viaCepService;
 
 	    public Client createClient(Client client, String userId) {
 	        User user = userRepository.findById(userId)
 	            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 	        
+	        ViaCepResponseDTO viaCepResponse = viaCepService.fetchAddressByCep(client.getCep());
+
+	        if (viaCepResponse == null || viaCepResponse.getLogradouro() == null) {
+	            throw new CepNotFoundException("CEP not found: " + client.getCep());
+	        }
+
+	        client.setStreet(viaCepResponse.getLogradouro());
+	        client.setNeighborhood(viaCepResponse.getBairro());
+	        client.setCity(viaCepResponse.getLocalidade());
+	        client.setState(viaCepResponse.getUf());
+
 	        // Associate the user with the client
 	        client.setUser(user);
 
-	        // Fetch address from ViaCEP (if implemented)
-	        // ViaCepResponse viaCepResponse = viaCepService.fetchAddressByCep(client.getCep());
-	        // Update client address fields...
-
-	        // Set the client reference in all phones and emails
+	        	        // Set the client reference in all phones and emails
 	        if (client.getPhones() != null) {
 	            client.getPhones().forEach(phone -> phone.setClient(client));
 	        }
