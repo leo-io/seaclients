@@ -14,7 +14,7 @@ public class Email {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "email_id", columnDefinition = "CHAR(36)") // Map to `email_id`
+    @Column(name = "email_id", columnDefinition = "CHAR(36)") 
     private String id;
 
     

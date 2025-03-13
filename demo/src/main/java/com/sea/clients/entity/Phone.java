@@ -14,7 +14,7 @@ public class Phone {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "phone_id", columnDefinition = "CHAR(36)") // Map to `phone_id`
+    @Column(name = "phone_id", columnDefinition = "CHAR(36)") 
     private String id;
 
     @Column(nullable = false)

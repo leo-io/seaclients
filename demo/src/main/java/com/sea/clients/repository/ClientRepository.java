@@ -8,5 +8,5 @@ import com.sea.clients.entity.Client;
 import com.sea.clients.entity.User;
 
 public interface ClientRepository extends JpaRepository<Client, String> {
-    List<Client> findByUser(User user); // Find clients by their managing user
+    List<Client> findByUser(User user); 
 }

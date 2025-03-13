@@ -20,7 +20,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password_hash", nullable = false) // Match database column name
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
@@ -31,7 +31,7 @@ public class User {
     private List<Client> clients;
 
     @CreationTimestamp
-    @Column(name = "created_at") // Map to `created_at` column
+    @Column(name = "created_at") 
     private LocalDateTime createdAt;
 
     public enum Role {

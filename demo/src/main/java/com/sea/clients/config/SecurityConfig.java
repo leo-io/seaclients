@@ -20,12 +20,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Users endpoints - ADMIN only
                 .requestMatchers("/api/users/**").hasRole("ADMIN")
-                
-                // Clients endpoints
                 .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("ADMIN", "STANDARD") // View allowed
                 .requestMatchers("/api/clients/**").hasRole("ADMIN") // All other operations require ADMIN
-                
-                // All other requests require authentication
                 .anyRequest().authenticated()
             )
             .httpBasic();

@@ -51,7 +51,7 @@ import lombok.RequiredArgsConstructor;
 	            client.getEmails().forEach(email -> email.setClient(client));
 	        }
 
-	        // Save the client (cascades to phones/emails)
+
 	        return clientRepository.save(client);
 	    }    
 	    public List<Client> getAllClients() {
@@ -67,13 +67,12 @@ import lombok.RequiredArgsConstructor;
 	        Client existingClient = clientRepository.findById(clientId)
 	            .orElseThrow(() -> new RuntimeException("Client not found"));
 
-	        // Update fields (excluding user and ID)
 	        existingClient.setName(updatedClient.getName());
 	        existingClient.setCpf(updatedClient.getCpf());
 	        existingClient.setCep(updatedClient.getCep());
 	        existingClient.setComplement(updatedClient.getComplement());
 
-	        // Fetch new address data if CEP changed
+
 	        if (!existingClient.getCep().equals(updatedClient.getCep())) {
 	        	ViaCepResponseDTO viaCepResponse = viaCepService.fetchAddressByCep(updatedClient.getCep());
 	            existingClient.setStreet(viaCepResponse.getLogradouro());
@@ -82,13 +81,11 @@ import lombok.RequiredArgsConstructor;
 	            existingClient.setState(viaCepResponse.getUf());
 	        }
 
-	        // Update phones and emails
 	        existingClient.getPhones().clear();
 	        existingClient.getPhones().addAll(updatedClient.getPhones());
 	        existingClient.getEmails().clear();
 	        existingClient.getEmails().addAll(updatedClient.getEmails());
 
-	        // Set client reference for new phones/emails
 	        existingClient.getPhones().forEach(phone -> phone.setClient(existingClient));
 	        existingClient.getEmails().forEach(email -> email.setClient(existingClient));
 

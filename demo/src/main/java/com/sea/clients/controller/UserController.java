@@ -26,11 +26,6 @@ public class UserController {
     private final UserService userService;
     private final ClientService clientService;
 
-//    @PostMapping
-//    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
-//    }
-    
     @PostMapping("/{userId}/clients")
     public ResponseEntity<Client> createClient(
         @PathVariable String userId,

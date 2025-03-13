@@ -3,7 +3,7 @@ package com.sea.clients.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true) // Ignore extra fields not used
+@JsonIgnoreProperties(ignoreUnknown = true) 
 public class ViaCepResponseDTO {
  private String cep;
  private String logradouro;
