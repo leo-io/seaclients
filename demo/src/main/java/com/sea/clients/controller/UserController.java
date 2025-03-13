@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sea.clients.entity.Client;
 import com.sea.clients.entity.User;
+import com.sea.clients.service.ClientService;
 import com.sea.clients.service.UserService;
 
 import jakarta.validation.Valid;
@@ -22,11 +24,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ClientService clientService;
 
 //    @PostMapping
 //    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 //        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
 //    }
+    
+    @PostMapping("/{userId}/clients")
+    public ResponseEntity<Client> createClient(
+        @PathVariable String userId,
+        @RequestBody Client client
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(clientService.createClient(client, userId));
+    }
+
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {

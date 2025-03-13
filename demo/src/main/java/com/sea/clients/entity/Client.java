@@ -52,12 +52,12 @@ public class Client {
     @JsonIgnore // Prevents infinite recursion
     private User user;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Email> emails;
-
+    
     @CreationTimestamp
     @Column(name = "created_at") // Map to `created_at` column
     private LocalDateTime createdAt;

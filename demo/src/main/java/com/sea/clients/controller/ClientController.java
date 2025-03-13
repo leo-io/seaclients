@@ -24,11 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ClientController {
     private final ClientService clientService;
 
-//    @PostMapping
-//    public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.createClient(client));
-//    }
-
+    
     @GetMapping
     public ResponseEntity<List<Client>> getAllClients() {
         return ResponseEntity.ok(clientService.getAllClients());
